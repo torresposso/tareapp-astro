@@ -1,16 +1,21 @@
 ---
-
+if (!Astro.locals.user?.id) return Astro.redirect('/signin')
 ---
 
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+  </head>
+  <body>
+    {JSON.stringify(Astro.locals.user)}
+    <button id="signOutButton">Sign Out</button>
+    <script>
+      import { authClient } from '@/utils/auth-client'
+      document.getElementById('signOutButton')?.addEventListener('click', async () => {
+        await authClient.signOut()
+        window.location.href = '/signin'
+      })
+    </script>
+  </body>
 </html>
